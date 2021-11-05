@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #80b3ff;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #0052cc;
+}
+
+.play_button {
+    background-color: #8e8f91;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.play_button:hover{
+  background-color: #00cc00;
+  color:white;
+}
+
+.stop_button {
+    background-color: #8e8f91;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.stop_button:hover{
+  background-color: #ff0000;
+  color:white;
+}
+
+
+</style>
+</head>
+<body>
+
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/config">Config</a></li>
+    <li><a href="/about">About</a></li>
+  </ul>
+<h1>Controls</h1>
+<hr>
+<form>
+  <label for="signal">Signal Type:</label><select name="signal" id="signal_select"> 
+    <option value="sine">Sine</option>
+    <option value="square">Square</option>
+    <option value="sawtooth">Sawtooth</option>
+    <option value="pulse">Pulse</option>
+    <option value="whitenoise">Whitenoise</option>
+  </select>
+  <br>
+  Frequency: <input type="number" name="frequency" value={{frequency}}>Hz
+  <br>
+  Duration: <input type="number" name="duration" value={{duration}}> seconds
+  <br>
+  Gain: <input type="number" step=0.01 name="gain" value={{gain}}> dB
+  <br>
+  Loops: <input type="number" name="loops" value={{loops}}> cycles
+  <br>
+  <input type=submit class="play_button" value="Play" formaction='/'>
+  <input type=submit class="stop_button" value="Stop" formaction='/stop'>
+</form>
+
+</body>
+</html>
