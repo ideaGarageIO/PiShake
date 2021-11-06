@@ -55,6 +55,8 @@ class FrequencyGenerator():
                 if msg['action'] == 'stop':
                     print("Recieved action: {}".format(msg['action']))
                     self.stop()
+            else:
+                raise Exception("Malformed command")
                 
     def stop(self):
         """

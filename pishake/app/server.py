@@ -105,6 +105,26 @@ def upload():
 def about():
     return render_template("about.html", version=version)
 
+@app.route('/test')
+def test():
+    return render_template("test.html")
+
+@app.route('/test_bad_data')
+def test_bad_data():
+    try:
+        connection = socket.bind(playerURL)
+        time.sleep(0.5)
+        cmd = "bad data"
+        cmd = json.dumps(cmd)
+        loaded_json = json.loads(cmd)
+        socket.send_json(loaded_json)
+    except Exception as e:
+        print("Error {}".format(e))
+    finally:
+        connection = socket.unbind(playerURL)
+
+    return render_template("test.html")
+
 
 def play_tone(signal='sine',frequency=60, duration=30, gain=1, loops=1):
     """
