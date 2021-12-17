@@ -4,7 +4,7 @@ import time
 import sys
 import json
 from pydub import AudioSegment
-from pydub.generators import Sine
+from pydub.generators import Sine, Sawtooth,Pulse, Square, Triangle, Pulse, WhiteNoise
 from pydub.playback import play
 import simpleaudio as sa
 
