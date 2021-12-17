@@ -23,11 +23,11 @@ frequency = 60
 duration = 50
 gain = 1
 loops = 1
-host = "127.0.0.1"
+host = "localhost"
 playerPort = '5557'
 playerURL = 'tcp://{}:{}'.format(host, playerPort)
 context = zmq.Context()
-socket = context.socket(zmq.PUB)
+socket = context.socket(zmq.REQ)
 
 
 @app.route('/')
@@ -71,7 +71,7 @@ def splash():
 @app.route('/stop')
 def stop(): 
     try:
-        connection = socket.bind(playerURL)
+        connection = socket.connect(playerURL)
         time.sleep(0.5)
         cmd_dict = {'action':'stop', 'frequency':0, 'duration':0,
                     'gain':0, 'loops':0}
@@ -112,7 +112,7 @@ def test():
 @app.route('/test_bad_data')
 def test_bad_data():
     try:
-        connection = socket.bind(playerURL)
+        connection = socket.connect(playerURL)
         time.sleep(0.5)
         cmd = "bad data"
         cmd = json.dumps(cmd)
@@ -121,7 +121,7 @@ def test_bad_data():
     except Exception as e:
         print("Error {}".format(e))
     finally:
-        connection = socket.unbind(playerURL)
+        connection = socket.disconnect(playerURL)
 
     return render_template("test.html")
 
@@ -167,17 +167,19 @@ def update_loops(loops_update):
 def sendmsg(signal, frequency, duration, gain, loops):
     print("sending message")
     try:
-        connection = socket.bind(playerURL)
+        connection = socket.connect(playerURL)
         time.sleep(0.5)
         cmd_dict = {'action':'play', 'signal':signal, 'frequency':frequency, 'duration':duration,
                     'gain':gain, 'loops':loops}
         cmd_dict = json.dumps(cmd_dict)
         loaded_json = json.loads(cmd_dict)
         socket.send_json(loaded_json)
+        reciept = socket.recv()
+        print(f"Received reply: {reciept}")
     except Exception as e:
         print("Error {}".format(e))
     finally:
-        connection = socket.unbind(playerURL)
+        connection = socket.disconnect(playerURL)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=8000, debug=True)

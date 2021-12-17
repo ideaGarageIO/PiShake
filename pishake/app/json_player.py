@@ -16,9 +16,9 @@ class FrequencyGenerator():
         self.port = port
         self.ip = ip
         self._context = zmq.Context()
-        self._socket = self._context.socket(zmq.SUB)
-        self._socket.connect("tcp://localhost:{}".format(self.port))
-        self._socket.setsockopt(zmq.SUBSCRIBE, b"")
+        self._socket = self._context.socket(zmq.REP)
+        self._socket.bind("tcp://*:{}".format(port))
+        # self._socket.setsockopt(zmq.SUBSCRIBE, b"")
         self._play_obj = None
         self.frequency = 60
         self.duration = 30
@@ -37,6 +37,7 @@ class FrequencyGenerator():
             msg = msg.decode('utf-8')
             try:
                 msg = json.loads(msg)
+                self._socket.send(b"Message Recieved")
             except ValueError:
                 msg = str(msg)
                 print("Error occurred with: {}".format(msg))
