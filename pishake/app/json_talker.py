@@ -6,7 +6,7 @@ import time
 import json
 import socket
 
-class Client():
+class PiShakeClient():
     def __init__(self, port="5557", ip="127.0.0.1"):
         self.port = port
         self.ip = ip
@@ -81,5 +81,5 @@ class Client():
             time.sleep(self.duration+3)
 
 if __name__ == "__main__":
-    client = Client()
+    client = PiShakeClient()
     client.run_sine_sweeps()

@@ -17,14 +17,20 @@ class FrequencyGenerator():
         self.ip = ip
         self._context = zmq.Context()
         self._socket = self._context.socket(zmq.REP)
+        # This is a server object which binds the connection
         self._socket.bind("tcp://*:{}".format(port))
-        # self._socket.setsockopt(zmq.SUBSCRIBE, b"")
         self._play_obj = None
         self.frequency = 60
         self.duration = 30
         self.gain = 1
         self.loops = 1
         self.supported_types = ['triangle', 'sine', 'square', 'sawtooth', 'pulse', 'whitenoise']
+
+
+    def recieve_message_test(self):
+        """
+        Method for testing message handling
+        """
 
 
     def recieve_message(self):
@@ -48,7 +54,7 @@ class FrequencyGenerator():
                         print("Signal: {} not supported".format(signal))
                     else:
                         frequency = int(msg['frequency'])
-                        duration = int(msg['duration'])
+                        duration = float(msg['duration'])
                         gain = float(msg['gain'])
                         loops = int(msg['loops'])
                         self.generate_signal(signal, frequency, duration*10, gain, loops)
@@ -75,22 +81,22 @@ class FrequencyGenerator():
         tone = None
         print("Generating {} signal".format(signal.lower()))
         if signal.lower() == "square":
-            tone = Square(frequency).to_audio_segment(duration)
+            tone = Square(frequency).to_audio_segment(duration*100)
         elif signal.lower() == "pulse":
-            tone = Pulse(frequency).to_audio_segment(duration)
+            tone = Pulse(frequency).to_audio_segment(duration*100)
         elif signal.lower() == "sawtooth":
-            tone = Sawtooth(frequency).to_audio_segment(duration)
+            tone = Sawtooth(frequency).to_audio_segment(duration*100)
         elif signal.lower() == "whitenoise":
-            tone = WhiteNoise().to_audio_segment(duration)
+            tone = WhiteNoise().to_audio_segment(duration*100)
         else:
-            tone = Sine(frequency).to_audio_segment(duration)
+            tone = Sine(frequency).to_audio_segment(duration*100)
         if tone != None:
-            print("Tone = {} generated".format(signal.lower()))
+            print("Tone = {} generated".format(signal.capitalize()))
         else:
-            print("Failed to generate {} signal".format(signal.lower()))
-        print("Playing Type: {}, Freuqncy: {}, Duration: {}, Gain: {}, Loops: {}".format(signal,
+            print("Failed to generate {} signal".format(signal.capitalize()))
+        print("Playing Type: {}, Freuqncy: {}, Duration: {}, Gain: {}, Loops: {}".format(signal.capitalize(),
                                                                                          frequency, 
-                                                                                         duration,
+                                                                                         duration/10,
                                                                                          gain,
                                                                                          loops))
         if tone:
