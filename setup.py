@@ -10,7 +10,7 @@ setup.py install file for the pishake python package
 from setuptools import setuptools
 
 setup(name='pishake',
-      version="0.0.1",
+      version="0.0.2",
       description="PiShake python package",
       author='Cameron Owens',
       author_email="cameronallanowens@gmail.com",
