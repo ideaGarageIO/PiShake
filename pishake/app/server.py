@@ -1,5 +1,9 @@
 """
-Webserver interface
+WebClient Interface:
+
+- This is a small web app that serves as a simple
+  UI Client for basic/manual tests. 
+  
 """
 
 from flask import Flask
@@ -13,6 +17,8 @@ from pydub.playback import play
 import zmq
 import time
 import json
+import sqlalchemy
+
 app = Flask(__name__)
 
 #POST request == Store data on Webserver
@@ -165,10 +171,10 @@ def update_loops(loops_update):
 
 
 def sendmsg(signal, frequency, duration, gain, loops):
-    print("sending message")
+    print("Sending Message")
     try:
         connection = socket.connect(playerURL)
-        time.sleep(0.5)
+        time.sleep()
         cmd_dict = {'action':'play', 'signal':signal, 'frequency':frequency, 'duration':duration,
                     'gain':gain, 'loops':loops}
         cmd_dict = json.dumps(cmd_dict)
