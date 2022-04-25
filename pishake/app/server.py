@@ -71,7 +71,7 @@ def splash():
         #sendmsg(frequency=frequency, duration=duration)
         play_tone(signal=signal, frequency=frequency, duration = duration,
                   gain=gain, loops=loops)
-    return render_template("splash.html", frequency=frequency,
+    return render_template("home.html", frequency=frequency,
                            duration=duration, gain=gain, loops=loops)
 
 @app.route('/stop')
